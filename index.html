@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALEX AND AUBREY AS ONE</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--burn1:#3b0f0f;
+--burn2:#7a1f0f;
+--burn3:#c65d00;
+--gold:#f6e6b4;
+--light:#fff8f0;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:linear-gradient(rgba(59,15,15,.92),rgba(122,31,15,.95)),
+url('/mnt/data/2.png');
+background-size:cover;
+background-position:center;
+color:var(--light);
+overflow-x:hidden;
+}
+
+/* Intro Animation */
+#intro{
+position:fixed;
+inset:0;
+background:linear-gradient(145deg,#2a0b0b,#7a1f0f);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+animation:fadeOut 2s ease 4s forwards;
+}
+
+#intro h1{
+font-family:'Playfair Display',serif;
+font-size:3rem;
+letter-spacing:4px;
+animation:glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px #fff3,0 0 20px #c65d00;}
+to{text-shadow:0 0 20px #fff,0 0 40px #ff8c00;}
+}
+
+@keyframes fadeOut{
+to{opacity:0;visibility:hidden;}
+}
+
+/* Falling Leaves */
+.leaf{
+position:fixed;
+top:-10%;
+width:25px;
+height:25px;
+background:radial-gradient(circle,#c65d00,#7a1f0f);
+border-radius:50% 50% 50% 0;
+opacity:.7;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(360deg);
+}
+}
+
+/* Header */
+header{
+text-align:center;
+padding:80px 20px 20px;
+}
+
+header h1{
+font-family:'Playfair Display',serif;
+font-size:2.5rem;
+letter-spacing:3px;
+}
+
+/* Countdown + Clock */
+.timer{
+text-align:center;
+margin:20px;
+font-size:1.2rem;
+}
+
+#countdown{
+font-size:1.5rem;
+margin-top:10px;
+color:var(--gold);
+}
+
+/* RSVP Form */
+form{
+max-width:400px;
+margin:40px auto;
+background:rgba(0,0,0,.45);
+padding:30px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+box-shadow:0 0 30px rgba(0,0,0,.6);
+}
+
+input,select,button{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
+border-radius:10px;
+font-size:1rem;
+}
+
+input,select{
+background:#fff;
+color:#000;
+}
+
+button{
+background:linear-gradient(45deg,#c65d00,#ff8c00);
+color:#fff;
+cursor:pointer;
+font-weight:600;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+footer{
+text-align:center;
+padding:20px;
+font-size:.9rem;
+opacity:.8;
+}
+
+@media(max-width:600px){
+header h1{font-size:1.8rem;}
+}
+</style>
+</head>
+<body>
+
+<div id="intro">
+<h1>ALEX AND AUBREY AS ONE</h1>
+</div>
+
+<header>
+<h1>ALEX AND AUBREY AS ONE</h1>
+</header>
+
+<div class="timer" aria-live="polite">
+<div>Wedding Event: September 19, 2026 — 10:00 AM</div>
+<div id="clock"></div>
+<div id="countdown"></div>
+</div>
+
+<form id="rsvpForm" aria-label="Wedding RSVP Form">
+<input type="text" id="name" placeholder="Full Name" required aria-label="Full Name">
+<select id="response" required aria-label="Attendance Response">
+<option value="">Will you attend?</option>
+<option value="Going">Going</option>
+<option value="Not Going">Not Going</option>
+</select>
+<button type="submit">Submit RSVP</button>
+</form>
+
+<footer>
+Luxury Autumn Wedding Experience
+</footer>
+
+<script>
+// Live Clock
+function updateClock(){
+const now=new Date();
+document.getElementById("clock").innerHTML="Current Time: "+now.toLocaleString();
+}
+setInterval(updateClock,1000);
+
+// Countdown
+const weddingDate=new Date("September 19, 2026 10:00:00").getTime();
+setInterval(()=>{
+const now=new Date().getTime();
+const diff=weddingDate-now;
+const d=Math.floor(diff/(1000*60*60*24));
+const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((diff%(1000*60*60))/(1000*60));
+const s=Math.floor((diff%(1000*60))/1000);
+document.getElementById("countdown").innerHTML=
+`Countdown: ${d}d ${h}h ${m}m ${s}s`;
+},1000);
+
+// RSVP storage
+document.getElementById("rsvpForm").addEventListener("submit",function(e){
+e.preventDefault();
+const name=document.getElementById("name").value;
+const response=document.getElementById("response").value;
+let guests=JSON.parse(localStorage.getItem("guests"))||[];
+guests.push({name,response});
+localStorage.setItem("guests",JSON.stringify(guests));
+alert("Thank you for your response!");
+this.reset();
+});
+
+// Generate falling leaves
+for(let i=0;i<20;i++){
+let leaf=document.createElement("div");
+leaf.className="leaf";
+leaf.style.left=Math.random()*100+"vw";
+leaf.style.animationDuration=(5+Math.random()*5)+"s";
+leaf.style.animationDelay=Math.random()*5+"s";
+document.body.appendChild(leaf);
+}
+</script>
+
+</body>
+</html>
