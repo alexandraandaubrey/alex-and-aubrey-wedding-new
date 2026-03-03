@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin RSVP Dashboard</title>
+<style>
+body{
+font-family:Arial;
+background:#2a0b0b;
+color:#fff;
+padding:40px;
+}
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+th,td{
+border:1px solid #fff;
+padding:10px;
+text-align:left;
+}
+button{
+padding:10px;
+margin-top:20px;
+cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<h1>RSVP Responses</h1>
+<table id="guestTable">
+<tr>
+<th>Full Name</th>
+<th>Response</th>
+</tr>
+</table>
+
+<button onclick="clearData()">Clear All Responses</button>
+
+<script>
+const guests=JSON.parse(localStorage.getItem("guests"))||[];
+const table=document.getElementById("guestTable");
+
+guests.forEach(g=>{
+let row=table.insertRow();
+row.insertCell(0).innerText=g.name;
+row.insertCell(1).innerText=g.response;
+});
+
+function clearData(){
+localStorage.removeItem("guests");
+location.reload();
+}
+</script>
+
+</body>
+</html>
